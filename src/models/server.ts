@@ -23,7 +23,6 @@ class Server {
             console.error(error, 'Error connecting to DB');
         }
     }
-
     middlewares() {
         this.app.use( cors() );
         this.app.use( express.json() );
@@ -31,7 +30,8 @@ class Server {
     }
 
     routes() {
-        this.app.use( config.apiPaths.tests, testRoutes );
+       this.app.use( config.apiPaths.tests, testRoutes );
+        //this.app.use('/tests', getTests)
     }
 
     listen() {

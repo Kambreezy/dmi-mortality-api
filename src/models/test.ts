@@ -16,4 +16,5 @@ const TestTable = db.define('TestTable', {
     timestamps: false
 });
 
+
 export default TestTable;

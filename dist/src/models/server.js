@@ -42,6 +42,7 @@ class Server {
     }
     routes() {
         this.app.use(config_1.default.apiPaths.tests, tests_1.default);
+        //this.app.use('/tests', getTests)
     }
     listen() {
         this.app.listen(config_1.default.port, () => {

@@ -4,8 +4,9 @@ import TestTable from "../models/test";
 
 export const getTests = async( req: Request, res: Response ) => {
     try {
-        const testTables = await TestTable.findAll();
-        res.json(testTables);
+        //res.json({ message: 'GET /user request received' });
+      const testTables = await TestTable.findAll();
+     res.json(testTables);
     } catch (error) {
         console.log(error);
         res.status(500).json({

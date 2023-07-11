@@ -16,6 +16,7 @@ exports.deleteTest = exports.updateTest = exports.createTest = exports.getTest =
 const test_1 = __importDefault(require("../models/test"));
 const getTests = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        //res.json({ message: 'GET /user request received' });
         const testTables = yield test_1.default.findAll();
         res.json(testTables);
     }

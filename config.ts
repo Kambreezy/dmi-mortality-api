@@ -5,7 +5,7 @@ dotenv.config();
 export default {
     port: process.env.PORT || "8000",
     apiPaths: {
-        tests: '/api/TestController'
+        tests: '/api/tests'
     },
     dbConfig: {
         db: process.env.DB || '<DB_NAME>',
