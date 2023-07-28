@@ -2,20 +2,20 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 
-const connect = require('./connection')
+const db = require('./connection')
 
 app.use(cors())
 //routes
-app.get("/api/allrecords", async (req, res) =>{
+app.get("/users", async (req, res) =>{
    // let filterUser = req.body.filter;
-    const result = await connect.getUsers();
+    const result = await db.getUsers();
     res.send(result)
 })
 
-app.get("/api/allrecords/:genderId", async (req, res) =>{
-    const genderId = req.params.genderId
-    const User = await connect.getUsersByGender(genderId)
-    if(!User) res.status(404).send('No gender data found')
+app.get("/user/:id", async (req, res) =>{
+    const id = req.params.id
+    const User = await db.getUser(id)
+    if(!User) res.status(404).send('User not found')
     res.send(User)
 
 })
