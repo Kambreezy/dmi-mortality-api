@@ -3,10 +3,10 @@ import OverviewController from '../controllers/overview.controller';
 class OverviewRoutes {
     router = Router();
     controller = new OverviewController();
-
     constructor() {
         this.intializeRoutes();
     }
+    ///checking with leaon
     intializeRoutes() {
 
         this.router.get("/findNumberEnrolled", this.controller.findNumberEnrolled);
@@ -14,12 +14,7 @@ class OverviewRoutes {
         this.router.get("/findCovid19OverTime", this.controller.findCovid19OverTime);
         this.router.get("/findCovidPositivity", this.controller.findCovid19Positivity);
 
-        this.router.get("/", this.controller.findAll);
-
 
     }
-
-
 }
-
 export default new OverviewRoutes().router;

@@ -2,10 +2,14 @@ import { NumberEnrolled } from './../models/numberEnrolled.model';
 import sequlize from "../db/connection";
 
 import { QueryTypes } from 'sequelize';
+import { Covid19ByAgeSex } from '../models/covid19ByAgeSex.model';
+import { Covid19OverTime } from '../models/covid19overtime.model';
+import { Covid19PositivityRate } from '../models/covid19Positivity.model';
 
 import { Covid19ByAgeSex } from '../models/covid19ByAgeSex.model';
 import { Covid19OverTime } from '../models/covid19overtime.model';
 import { Covid19PositivityRate } from '../models/covid19Positivity.model';
+
 
 interface IOverviewRepository {
     retrieveNumberEnrolled(): Promise<NumberEnrolled[]>
@@ -16,6 +20,22 @@ interface IOverviewRepository {
 }
 
 class OverviewRepository implements IOverviewRepository {
+    covid19OVerTime: any;
+    async retrieveNumberEnrolled(): Promise<NumberEnrolled[]> {
+        let condition = '';
+        condition += 'and SampleTested is not null and barcode is not null Group by Facility';
+        const bindings: any[] = [];
+        const query = `SELECT  newid() as Id, sum( SampleTested) as Enrolled, sum(Covid19Positive) 
+                        Covid19Positive,Facility  from [dbo].[FactMortality] 
+                        Where SampleTested = 1 ${condition};`
+
+        const [results, metadata] = await sequlize.query<NumberEnrolled[]>(query, {
+            type: QueryTypes.SELECT,
+
+        });
+        return results;
+    }
+  
     async retrieveCovid19ByAgeSex(): Promise<Covid19ByAgeSex[]> {
         let condition = '';
         condition += 'and SampleTested is not null and barcode is not null and AgeGroup is not null Group by AgeGroup,sex'
@@ -28,24 +48,29 @@ class OverviewRepository implements IOverviewRepository {
 
              });
               console.log(results);
-                  return results;
+        return results;
 
     }
     async retrieveCovid19OverTime(): Promise<Covid19OverTime[]> {
+        
+
+
         let condition = '';
-        condition += 'and SampleTested is not null and barcode is not null Group by EpiWeek'
+        condition += 'and SampleTested is not null and barcode is not null'
         const query = `SELECT 
-        sum(SampleTested) SampleTested, 
+        count(SampleTested) SampleTested, 
         sum(Covid19Positive) CovidPositive,
         EpiWeek
     FROM  [dbo].[FactMortality]  p
-    WHERE SampleTested = 1 ${condition};`
-         const [results, metadata] = await sequlize.query<Covid19OverTime[]>(query, {
+    WHERE SampleTested = 1 ${condition}
+    Group by EpiWeek;`
+         this.covid19OVerTime = await sequlize.query<Covid19OverTime[]>(query, {
             type: QueryTypes.SELECT,
 
-             });
-              console.log(results);
-                  return results;
+        });
+ 
+        console.log( this.covid19OVerTime);
+        return  this.covid19OVerTime; 
     }
     async retrieveCovid19Positivity(): Promise<Covid19PositivityRate[]> {
  
@@ -62,40 +87,8 @@ class OverviewRepository implements IOverviewRepository {
                   return results;
     }
 
-
-    async retrieveNumberEnrolled(): Promise<NumberEnrolled[]> {
-        let condition = '';
-        condition += 'and SampleTested is not null and barcode is not null Group by Facility';
-        const bindings: any[] = [];
-        const query = `SELECT  newid() as Id, sum( SampleTested) as Enrolled, sum(Covid19Positive) 
-                        Covid19Positive,Facility  from [dbo].[FactMortality] 
-                        Where SampleTested = 1 ${condition};`
-        const [results, metadata] = await sequlize.query<NumberEnrolled[]>(query, {
-            type: QueryTypes.SELECT,
-
-interface IOverviewRepository {
-  retrieveAll() : Promise<NumberEnrolled[]>  
 }
-
-class OverviewRepository implements IOverviewRepository {
-
- 
-    async retrieveAll(): Promise<NumberEnrolled[]> {
-        let condition = '';
-        condition += 'and SampleTested is not null and barcode is not null Group by Facility';
-        const bindings: any[] = [];
-        const query =  `SELECT  newid() as Id, sum( SampleTested) as Enrolled, sum(Covid19Positive) 
-                        Covid19Positive,Facility  from [dbo].[FactMortality] 
-                        Where SampleTested = 1 ${condition};`
-         const [results, metadata]  = await sequlize.query<NumberEnrolled[]>(query, { 
-            type : QueryTypes.SELECT,
+   
 
 
-        });
-        console.log(results);
-        return results;
-
-    }
-
-}
 export default new OverviewRepository

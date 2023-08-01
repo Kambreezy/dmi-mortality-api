@@ -1,28 +1,15 @@
-
-
-
 import { Request, Response } from "express";
 import overviewRepository from "../repositories/overview.repository"
 import { Covid19OverTime } from "../models/covid19overtime.model";
 
 export default class OverviewController {
-    
-   
 
     async findNumberEnrolled(req: Request, res: Response) {
         try{
 
+
             const numEnrolledAndPositive = await overviewRepository.retrieveNumberEnrolled();
 
-import { Request, Response } from "express";
-import overviewRepository from "../repositories/overview.repository"
-
-export default class OverviewController {
-
-    async findAll(req: Request, res: Response) {
-        try{
-
-            const numEnrolledAndPositive = await overviewRepository.retrieveAll();
 
             res.status(201).send(numEnrolledAndPositive); 
            
@@ -74,7 +61,6 @@ export default class OverviewController {
             res.status(500).send ({
                message: "Some Error occured while retrieving covid19Positivity"
 
-               message: "Some Error occured while retrieving tutorials"
 
             });
 
