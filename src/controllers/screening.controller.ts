@@ -38,4 +38,16 @@ export default class ScreeningController {
             });
         }
     }
+
+    async findScreeningOverTime(req: Request, res: Response) {
+        try {
+            const numScreenedOverTime = await screeningRepository.retrieveScreeningOverTime();
+            res.status(201).send(numScreenedOverTime);
+        }
+        catch (err) {
+            res.status(500).send({
+                message: "Some Error occured while retrieving number screened by Health Facilities"
+            });
+        }
+    }
 }
