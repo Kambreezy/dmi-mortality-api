@@ -8,7 +8,7 @@ interface IScreeningRepository {
   retrieveScreeningByAgeGender(): Promise<ScreeningByAgeGender[]>;
 }
 
-class ScreenigRepository implements IScreeningRepository {
+class ScreeningRepository implements IScreeningRepository {
 
   db = new Database();
   private retrievedScreeningData: any;
@@ -45,4 +45,4 @@ class ScreenigRepository implements IScreeningRepository {
   }
 
 }
-export default new ScreenigRepository
+export default new ScreeningRepository
