@@ -22,7 +22,19 @@ export default class ScreeningController {
         }
         catch (err) {
             res.status(500).send({
-                message: "Some Error occured while retrieving numScreenedByAgeGender"
+                message: "Some Error occured while retrieving number screened by Age and Gender"
+            });
+        }
+    }
+
+    async findScreeningByHealthFacilities(req: Request, res: Response) {
+        try {
+            const numScreenedByHealthFacility = await screeningRepository.retrieveScreeningByHealthFacilities();
+            res.status(201).send(numScreenedByHealthFacility);
+        }
+        catch (err) {
+            res.status(500).send({
+                message: "Some Error occured while retrieving number screened by Health Facilities"
             });
         }
     }
