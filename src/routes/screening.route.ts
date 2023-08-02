@@ -11,6 +11,7 @@ class ScreeningRoutes {
         this.router.get("/findScreeningByGender", this.controller.findScreeningByGender);
         this.router.get("/findScreeningByAgeGender", this.controller.findScreeningByAgeGender);
         this.router.get("/findScreeningByHealthFacilities", this.controller.findScreeningByHealthFacilities);
+        this.router.get("/findScreeningOverTime", this.controller.findScreeningOverTime);
     }
 }
 export default new ScreeningRoutes().router;
