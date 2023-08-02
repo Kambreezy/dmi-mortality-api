@@ -11,7 +11,6 @@ export default class OverviewController {
             const numEnrolledAndPositive = await overviewRepository.retrieveNumberEnrolledByFacility();
 
 
-
             res.status(201).send(numEnrolledAndPositive); 
            
         }

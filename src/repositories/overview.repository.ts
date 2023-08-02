@@ -1,13 +1,11 @@
 import { NumberEnrolled } from './../models/numberEnrolled.model';
 
 
-
 import { QueryTypes } from 'sequelize';
 import { Covid19ByAgeSex } from '../models/covid19ByAgeSex.model';
 import { Covid19OverTime } from '../models/covid19overtime.model';
 import { Covid19PositivityRate } from '../models/covid19Positivity.model';
 import Database from '../db';
-
 
 
 
@@ -28,7 +26,6 @@ class OverviewRepository implements IOverviewRepository {
      db = new Database();
 
     async retrieveNumberEnrolledByFacility(): Promise<NumberEnrolled[]> {
-
         let condition = '';
         condition += 'and SampleTested is not null and barcode is not null Group by Facility';
         const bindings: any[] = [];
@@ -36,14 +33,12 @@ class OverviewRepository implements IOverviewRepository {
                         Covid19Positive,Facility  from [dbo].[FactMortality] 
                         Where SampleTested = 1 ${condition};`
 
-
         this.numberEnrolled = await this.db.sequelize?.query<NumberEnrolled[]>(query, {
             type: QueryTypes.SELECT,
 
         });
      
         return this.numberEnrolled;
-
     }
   
     async retrieveCovid19ByAgeSex(): Promise<Covid19ByAgeSex[]> {
@@ -63,7 +58,6 @@ class OverviewRepository implements IOverviewRepository {
     }
     async retrieveCovid19OverTime(): Promise<Covid19OverTime[]> {
         
-
         let condition = '';
         condition += 'and SampleTested is not null and barcode is not null'
         const query = `SELECT 
@@ -102,5 +96,4 @@ class OverviewRepository implements IOverviewRepository {
 
 }
    
-
 export default new OverviewRepository
