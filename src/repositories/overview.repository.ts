@@ -5,6 +5,7 @@ import { QueryTypes } from 'sequelize';
 import { Covid19ByAgeSex } from '../models/covid19ByAgeSex.model';
 import { Covid19OverTime } from '../models/covid19overtime.model';
 import { Covid19PositivityRate } from '../models/covid19Positivity.model';
+import { Covid19PositivityByGenderRate } from '../models/covid19PositivityByGender.model';
 import Database from '../db';
 
 
@@ -15,6 +16,7 @@ interface IOverviewRepository {
     retrieveCovid19ByAgeSex(): Promise<Covid19ByAgeSex[]>
     retrieveCovid19OverTime(): Promise<Covid19OverTime[]>
     retrieveCovid19Positivity(): Promise<Covid19PositivityRate[]>
+    retrieveCovid19PositivityByGender(): Promise<Covid19PositivityByGenderRate[]>
 
 }
 
@@ -23,6 +25,7 @@ class OverviewRepository implements IOverviewRepository {
     numberEnrolled : any;
     covid19ByAgeSex : any;
     covidPositivityRate : any;
+    covidPositivityByGenderRate : any;
      db = new Database();
 
     async retrieveNumberEnrolledByFacility(): Promise<NumberEnrolled[]> {
@@ -91,6 +94,22 @@ class OverviewRepository implements IOverviewRepository {
 
               console.log(this.covidPositivityRate);
             return this.covidPositivityRate;
+
+    }
+    async retrieveCovid19PositivityByGender(): Promise<Covid19PositivityByGenderRate[]> {
+ 
+        let condition = '';
+        condition += 'and SampleTested is not null and barcode is not null group by Sex'
+        const query = `select count(p.Covid19Positive) As PositiveNumber, 
+        (SELECT SexValue FROM [dbo].[DimSex] where SexId = sex) as Gender from [dbo].[FactMortality] p 
+        where Covid19Positive = 1 and SampleTested = 1 ${condition};`
+            this.covidPositivityByGenderRate = await this.db.sequelize?.query<Covid19PositivityByGenderRate[]>(query, {
+            type: QueryTypes.SELECT,
+
+             });
+
+              console.log(this.covidPositivityByGenderRate);
+            return this.covidPositivityByGenderRate;
 
     }
 

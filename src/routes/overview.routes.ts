@@ -13,6 +13,7 @@ class OverviewRoutes {
         this.router.get("/findCovid19ByAgeSex", this.controller.findCovid19ByAgeSex);
         this.router.get("/findCovid19OverTime", this.controller.findCovid19OverTime);
         this.router.get("/findCovidPositivity", this.controller.findCovid19Positivity);
+        this.router.get("/findCovidPositivityByGender", this.controller.findCovid19PositivityByGender);
 
 
     }
