@@ -1,9 +1,9 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
 
-export class Covid19PositivityByGender extends Model {
+export class Covid19OverallPositivityByFacility extends Model {
 
   public PositiveNumber?: number;
-  public Gender?: string;
+  public Facility?: string;
 
 
 }
