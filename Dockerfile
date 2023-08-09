@@ -15,7 +15,7 @@ RUN npm install sequelize
 COPY . .
 
 # Expose the port your app runs on
-EXPOSE 8000
+EXPOSE 8080
 
 # Command to start your Node.js app
 CMD ["npm", "run", "build"]
